@@ -1,0 +1,39 @@
+{
+  "articles": [
+    {
+      "slug": "The-title2-1850",
+      "title": "The title Recap1",
+      "description": "The description",
+      "body": "The body of the article",
+      "tagList": [],
+      "createdAt": "2023-08-21T13:13:45.158Z",
+      "updatedAt": "2023-08-21T13:13:45.158Z",
+      "favorited": false,
+      "favoritesCount": 1,
+      "author": {
+        "username": "CyTestUser",
+        "bio": "2222",
+        "image": "https://i.stack.imgur.com/34AD2.jpg",
+        "following": false
+      }
+    },
+    {
+      "slug": "The-title-1850",
+      "title": "The titleRecap2",
+      "description": "The description",
+      "body": "The body of the article",
+      "tagList": [],
+      "createdAt": "2023-08-21T13:11:43.038Z",
+      "updatedAt": "2023-08-21T13:11:43.038Z",
+      "favorited": false,
+      "favoritesCount": 5,
+      "author": {
+        "username": "CyTestUser",
+        "bio": "2222",
+        "image": "https://i.stack.imgur.com/34AD2.jpg",
+        "following": false
+      }
+    }
+  ],
+  "articlesCount": 2375
+}

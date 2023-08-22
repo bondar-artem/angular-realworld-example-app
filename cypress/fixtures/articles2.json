@@ -1,0 +1,32 @@
+{
+  "article": {
+    "id": 337105,
+    "slug": "The-title-1850",
+    "title": "The title",
+    "description": "The description",
+    "body": "The body of the article",
+    "createdAt": "2023-08-21T13:11:43.038Z",
+    "updatedAt": "2023-08-21T13:11:43.038Z",
+    "authorId": 1850,
+    "tagList": [],
+    "author": {
+      "username": "CyTestUser",
+      "bio": "2222",
+      "image": "https://i.stack.imgur.com/34AD2.jpg",
+      "following": false
+    },
+    "favoritedBy": [
+      {
+        "id": 1850,
+        "email": "artem.bondar16@gmail.com",
+        "username": "CyTestUser",
+        "password": "$2a$10$Ha61ZsnLtukQMADlw7WBt.iCSWOseepHG932J7kIXkD1sEw9u5pwG",
+        "image": "https://i.stack.imgur.com/34AD2.jpg",
+        "bio": "2222",
+        "demo": false
+      }
+    ],
+    "favorited": true,
+    "favoritesCount": 1
+  }
+}
