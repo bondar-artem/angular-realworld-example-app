@@ -36,7 +36,7 @@ it('intercepting and modifying the request and response', ()=>{
        
     //create the article from UI
         cy.contains('New Article').click()
-        cy.get('[formcontrolname="title"]').type('article Title')
+        cy.get('[formcontrolname="title"]').type('New Article Title')
         //even if we type this in the webpage field the API will read our backend data
         cy.get('[formcontrolname="description"]').type('Description before server update')
         cy.get('[formcontrolname="body"]').type('article Body')
