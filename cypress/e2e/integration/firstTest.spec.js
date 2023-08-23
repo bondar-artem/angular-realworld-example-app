@@ -1,7 +1,132 @@
 /// <reference types ="cypress" />
 
 describe('Test with backend', ()=>{
+    
+    beforeEach('go to login page', () =>{
+        cy.loginToApp()
+    })
 
+    //HEADLESS authentication - each test - login and pass - time consume
+    //Application - localStorage - 
+    //make an APi request to get the token and then save the token in Application - local storage
+    //browser will perform all actions as authenticated user
+    it.only('delete a new article, headless mode', ()=>{
+
+        //no need for userCredentials as they are set in the commands.js     
+        // const userCredentials = {
+        //     "user": {
+        //         "email": "artem.bondar16@gmail.com",
+        //         "password": "CypressTest1"
+        //     }
+        // }
+        
+        const bodyRequest = {
+            "article": {
+                "title": "new title sent from api replace UI xxxx",
+                "description": "new description sent from api replace UI xxx",
+                "body": "new body sent from api replace UI xxx",
+                "tagList": []
+            }
+        } 
+        //get the ALIAS @token from commands.js .then use the token parameter from commands.js to
+        //access the API requests
+        cy.get('@token').then(token =>{
+           
+            cy.request({
+                method:'POST',
+                url: 'https://api.realworld.io/api/articles/',
+                headers: {'Authorization':'Token '+token},
+                body: bodyRequest
+                        }).then(response =>{
+                        expect(response.status).to.equal(201)
+                        })
+        cy.contains('Global Feed').click()
+        cy.get('app-article-list').should('contain', ' CyTestUser ')
+        cy.get('.article-preview').first().click()
+        cy.get('.article-actions').contains('Delete Article').click()
+        cy.request({
+            method:'GET',
+            url: 'https://api.realworld.io/api/articles?limit=10&offset=0',
+            headers: {'Authorization':'Token '+token},
+        }).its('body').then(body =>{
+            console.log(body)
+            expect(body.articles[0].title).not.to.equal('new title sent from api replace UI xxxx')
+        })
+        })
+    })
+
+    //---------------------
+    //Delete a new article
+    //Get the first API call to get our access TOKEN - able to manipulate API
+    it.only('delete a new article', ()=>{
+
+    //create a variable - const - for user credentials.. too much writting.. :D
+    const userCredentials = {
+        "user": {
+            "email": "artem.bondar16@gmail.com",
+            "password": "CypressTest1"
+        }
+    }
+    //create a body request - set the body value we want to change in the API
+    const bodyRequest = {
+        "article": {
+            "title": "new title sent from api replace UI xxxx",
+            "description": "new description sent from api replace UI xxx",
+            "body": "new body sent from api replace UI xxx",
+            "tagList": []
+        }
+    }
+
+    //make an API request - similar to routing - post - login url - user credentials to login
+    //after we access the api request we get a respons, so the response will have .its own
+    //.its('body') and .then do something with the body - get the .token from .body that is inside .user- 
+    //create a const to assign to it the body.user.token value    
+    cy.request('POST', 'https://api.realworld.io/api/users/login', userCredentials )
+        .its('body').then(body =>{
+            const token = body.user.token
+    //create a new request to create article - POST
+    //now we will have to check headers we cannot provide parameters as we did up (3 stages of request)
+    //create an object and specify the params inside the object
+        cy.request({
+            method:'POST',
+            url: 'https://api.realworld.io/api/articles/',
+            //headers is an object - key value - 
+            //for Authorization element in headers we need Token 'space' token value - see Headers
+            headers: {'Authorization':'Token '+token},
+            body: bodyRequest
+            //.then i want to get the response that my new article has been created with body value
+            //so we - expect() - that response .status) .to.equal()
+                    }).then(response =>{
+                    expect(response.status).to.equal(201)
+                    })
+    //click on global feed then take the value of the first article
+    cy.contains('Global Feed').click()
+    //wait for the element to appear in page
+    cy.get('app-article-list').should('contain', ' CyTestUser ')
+    cy.get('.article-preview').first().click()
+    cy.get('.article-actions').contains('Delete Article').click()
+    
+    //verify our article was deleted in API
+    //request the list of our articles from API
+    //verify that the first article of the list does not have the text which we created
+    //Request the list of articles find our article delete and validate we deleted it
+    //because we need to set a token we must create an Object - access Headers object
+    cy.request({
+        method:'GET',
+        url: 'https://api.realworld.io/api/articles?limit=10&offset=0',
+        headers: {'Authorization':'Token '+token},
+    //take the body of the response - the deleted article in API - 
+    //.then use the body elements to validate that we have an EMPTY JSON - get console.log
+    }).its('body').then(body =>{
+        console.log(body)
+    //expect that the title of the first article does not match the title of our created article
+        expect(body.articles[0].title).not.to.equal('new title sent from api replace UI xxxx')
+    })
+
+    })
+})
+
+    //------3rd day dont forget to activate beforeeach so interceptor will work
     // beforeEach('go to login page', () =>{
     // //provide the value that we want to use as our response fixture - json
     // //intercept header for tags - GET, url, mock value we want to use as our response for intercepted API
@@ -9,12 +134,12 @@ describe('Test with backend', ()=>{
     //     cy.loginToApp()
     // })
 
-    beforeEach('go to login page', () =>{
-        //provide the value that we want to use as our response fixture - json
-        //intercept header for tags - GET, url, mock value we want to use as our response for intercepted API
-            cy.intercept({method: 'GET', path: 'tags'}, {fixture: 'tags.json'})
-            cy.loginToApp()
-        })
+    // beforeEach('go to login page', () =>{
+    //     //provide the value that we want to use as our response fixture - json
+    //     //intercept header for tags - GET, url, mock value we want to use as our response for intercepted API
+    //         cy.intercept({method: 'GET', path: 'tags'}, {fixture: 'tags.json'})
+    //         cy.loginToApp()
+    //     })
 
 //Intercept the (response from server) data we get from the server and modify the data 
 //with what we want
@@ -62,7 +187,7 @@ it('intercepting and modifying the request and response', ()=>{
 //what kind of url or different parameters you want to intercept - Handler
 //routerMatcher and routerHandler  
 //-Intercept the (request) data we send to the server, modify the data and send to the server what we want
-it.only('intercepting and modifying the request and response', ()=>{
+it('intercepting and modifying the request and response', ()=>{
 
     //intercept the request method - used for our URL - save the request .as alias - 
     //work with the instance of the method to use it later on as a listener(validator)
@@ -371,7 +496,4 @@ it('intercepting and modifying REQ and RESP', ()=>{
         })
 
 })
-
-
 })
-
