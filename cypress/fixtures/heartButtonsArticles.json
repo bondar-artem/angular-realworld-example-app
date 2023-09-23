@@ -1,0 +1,39 @@
+{
+  "articles": [
+    {
+      "slug": "articleRecap-1850",
+      "title": "articleRecap",
+      "description": "articleRecapDescription",
+      "body": "articleRecapBody",
+      "tagList": [],
+      "createdAt": "2023-08-22T08:44:29.933Z",
+      "updatedAt": "2023-08-22T08:44:29.933Z",
+      "favorited": true,
+      "favoritesCount": 3,
+      "author": {
+        "username": "CyTestUser",
+        "bio": "2222",
+        "image": "https://i.stack.imgur.com/34AD2.jpg",
+        "following": false
+      }
+    },
+    {
+      "slug": "This-is-Article-Title-1850",
+      "title": "This is Article Title",
+      "description": "What's this article about?",
+      "body": "Write your article (in markdown)",
+      "tagList": ["Tag Test"],
+      "createdAt": "2023-08-22T08:42:38.024Z",
+      "updatedAt": "2023-08-22T08:42:38.024Z",
+      "favorited": true,
+      "favoritesCount": 7,
+      "author": {
+        "username": "CyTestUser",
+        "bio": "2222",
+        "image": "https://i.stack.imgur.com/34AD2.jpg",
+        "following": false
+      }
+    }
+  ],
+  "articlesCount": 2375
+}
